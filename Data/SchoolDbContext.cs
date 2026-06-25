@@ -21,10 +21,7 @@ public partial class SchoolDbContext : DbContext
 
     public virtual DbSet<Teacher> Teachers { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=localhost;Port=5433;Database=school;Username=postgres;Password=postgre");
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Student>(entity =>
@@ -34,7 +31,7 @@ public partial class SchoolDbContext : DbContext
             entity.ToTable("student");
 
             entity.Property(e => e.StudentId).HasColumnName("student_id");
-            entity.Property(e => e.AvarageGrade).HasColumnName("avarage_grade");
+            entity.Property(e => e.AverageGrade).HasColumnName("avarage_grade");
             entity.Property(e => e.LastName)
                 .HasMaxLength(30)
                 .HasColumnName("last_name");
@@ -81,6 +78,39 @@ public partial class SchoolDbContext : DbContext
         });
 
         OnModelCreatingPartial(modelBuilder);
+
+        modelBuilder.Entity<Teacher>().HasData(
+            new Teacher 
+            { 
+                TeacherId = 1, 
+                Name = "Олена", 
+                LastName = "Шевченко", 
+                ThirdName = "Іванівна", 
+                TeacherClass = "10-А", 
+                PhoneNumber = "0991234567", 
+                Salary = 15000 
+            },
+            new Teacher 
+            { 
+                TeacherId = 2, 
+                Name = "Ігор", 
+                LastName = "Коваленко", 
+                ThirdName = "Петрович", 
+                TeacherClass = "11-Б", 
+                PhoneNumber = "0987654321", 
+                Salary = 16000 
+            },
+            new Teacher 
+            { 
+                TeacherId = 3, 
+                Name = "Василь", 
+                LastName = "Чайка", 
+                ThirdName = "Олегович", 
+                TeacherClass = "9-Б", 
+                PhoneNumber = "0995314367", 
+                Salary = 15000 
+            }
+        );
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

@@ -13,7 +13,7 @@ public partial class Student
 
     public string? ThirdName { get; set; }
 
-    public double? AvarageGrade { get; set; }
+    public double? AverageGrade { get; set; }
 
     public int TeacherId { get; set; }
 

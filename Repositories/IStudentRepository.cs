@@ -5,7 +5,7 @@ namespace Lab2_Programming.Repositories
 {
     public interface IStudentRepository
     {
-        IEnumerable<Student> GetAllStudentsWithTeachers();
+        IQueryable<Student> GetAllStudentsWithTeachers();
         Student GetStudentById(int id);
         void DeleteStudentById(int id);
         void AddStudent(Student student);

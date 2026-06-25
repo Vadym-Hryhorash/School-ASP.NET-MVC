@@ -46,23 +46,12 @@ namespace Lab2_Programming.Services
         {
             int teacherId = _studentRepository.GetTeacherId(className);
 
-            if (teacherId == null || teacherId == 0)
+            if (teacherId == 0)
             {
                 throw new ArgumentException("Вчителя такого класу не знайдено!");
             }
 
-            if (student == null)
-            {
-                throw new ArgumentException("Помилка даних!");
-            }
-            else if (string.IsNullOrEmpty(student.Name) || string.IsNullOrEmpty(student.LastName))
-            {
-                throw new ArgumentException("Ім'я та Прізвище не можуть бути пустими!");
-            }
-            else if (student.AvarageGrade > 12 || student.AvarageGrade < 0)
-            {
-                throw new ArgumentException("Середня оцінка має бути в межах від 0 до 12 включно!");
-            }
+            ValidateStudentData(student);
 
             student.TeacherId = teacherId;
 
@@ -79,25 +68,13 @@ namespace Lab2_Programming.Services
         public void UpdateStudent(Student student, string className)
         {
             int teacherId = _studentRepository.GetTeacherId(className);
+
             if (teacherId == 0)
             {
                 throw new ArgumentException("Вчителя такого класу не знайдено!");
             }
 
-            if (student == null)
-            {
-                throw new ArgumentException("Помилка даних!");
-            }
-
-            if (string.IsNullOrEmpty(student.Name) || string.IsNullOrEmpty(student.LastName))
-            {
-                throw new ArgumentException("Ім'я та Прізвище не можуть бути пустими!");
-            }
-
-            if (student.AvarageGrade > 12 || student.AvarageGrade < 0)
-            {
-                throw new ArgumentException("Середня оцінка має бути в межах від 0 до 12 включно!");
-            }
+            ValidateStudentData(student);
 
             student.TeacherId = teacherId;
 
@@ -110,5 +87,28 @@ namespace Lab2_Programming.Services
                 throw new Exception("Помилка оновлення: проблеми з Базою Даних!", ex);
             }
         }
+        private void ValidateStudentData(Student student)
+        {
+            if (student == null)
+            {
+                throw new ArgumentException("Помилка даних!");
+            }
+
+            if (student.AverageGrade == null)
+            {
+                throw new ArgumentException("Середній бал є обов'язковим для заповнення!");
+            }
+
+            if (string.IsNullOrEmpty(student.Name) || string.IsNullOrEmpty(student.LastName))
+            {
+                throw new ArgumentException("Ім'я та Прізвище не можуть бути пустими!");
+            }
+
+            if (student.AverageGrade > 12 || student.AverageGrade < 0)
+            {
+                throw new ArgumentException("Середня оцінка має бути в межах від 0 до 12 включно!");
+            }
+        }
+    
     }
 }

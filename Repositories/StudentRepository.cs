@@ -13,10 +13,10 @@ namespace Lab2_Programming.Repositories
         {
             this.db = db;
         }
-        public IEnumerable<Student> GetAllStudentsWithTeachers()
+        public IQueryable<Student> GetAllStudentsWithTeachers()
         {
             
-            return db.Students.Include(student => student.Teacher).ToList();
+            return db.Students.Include(student => student.Teacher);
         }
         public Student GetStudentById(int id)
         {
@@ -33,12 +33,9 @@ namespace Lab2_Programming.Repositories
         }
         public int GetTeacherId(string className)
         {
-            var teacher = db.Teachers.FirstOrDefault(c => c.TeacherClass == className);
-            if (teacher != null)
-            {
-                return teacher.TeacherId;
-            }
-            return 0;
+            var teacherId = db.Teachers.Where(t => t.TeacherClass == className).Select(t => t.TeacherId).FirstOrDefault();
+            return teacherId;
+            
         }
         public void UpdateStudent(Student student)
         {

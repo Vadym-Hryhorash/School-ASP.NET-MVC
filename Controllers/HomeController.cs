@@ -40,6 +40,12 @@ namespace Lab2_Programming.Controllers
         [HttpPost]
         public IActionResult CreateStudent(Student student, string className)
         {
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Некоректний формат даних.";
+                return RedirectToAction("Index");
+            }
+
             try
             { 
                 _studentService.AddStudent(student, className);
@@ -50,7 +56,7 @@ namespace Lab2_Programming.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "������� ������� ��� ���������� � ���� �����.";
+                TempData["ErrorMessage"] = "Сталася помилка при створенні студента.";
             }
             return RedirectToAction("Index");
         }
@@ -58,6 +64,12 @@ namespace Lab2_Programming.Controllers
         [HttpPost]
         public IActionResult UpdateStudent(Student student, string className)
         {
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Некоректний формат даних.";
+                return RedirectToAction("Info", new { id = student.StudentId });
+            }
+
             try
             {
                 _studentService.UpdateStudent(student, className);
