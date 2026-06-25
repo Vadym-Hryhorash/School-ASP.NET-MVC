@@ -94,11 +94,6 @@ namespace Lab2_Programming.Services
                 throw new ArgumentException("Помилка даних!");
             }
 
-            if (student.AverageGrade == null)
-            {
-                throw new ArgumentException("Середній бал є обов'язковим для заповнення!");
-            }
-
             if (string.IsNullOrEmpty(student.Name) || string.IsNullOrEmpty(student.LastName))
             {
                 throw new ArgumentException("Ім'я та Прізвище не можуть бути пустими!");
@@ -107,6 +102,11 @@ namespace Lab2_Programming.Services
             if (student.AverageGrade > 12 || student.AverageGrade < 0)
             {
                 throw new ArgumentException("Середня оцінка має бути в межах від 0 до 12 включно!");
+            }
+
+            if (student.ParentsPhone.Length != 0 && (student.ParentsPhone.Length < 13 || student.ParentsPhone.Length > 13))
+            {
+                throw new ArgumentException("Номер телефону батьків має бути у форматі +380XXXXXXXXX!");
             }
         }
     

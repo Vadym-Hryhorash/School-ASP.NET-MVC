@@ -40,9 +40,14 @@ namespace Lab2_Programming.Controllers
         [HttpPost]
         public IActionResult CreateStudent(Student student, string className)
         {
+            ModelState.Remove("Teacher");
             if (!ModelState.IsValid)
             {
-                TempData["ErrorMessage"] = "Некоректний формат даних.";
+                var exactErrors = string.Join(" | ", ModelState.Values
+                                .SelectMany(v => v.Errors)
+                                .Select(e => e.ErrorMessage));
+                                
+                TempData["ErrorMessage"] = $"Помилка форми: {exactErrors}";
                 return RedirectToAction("Index");
             }
 
@@ -56,7 +61,7 @@ namespace Lab2_Programming.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Сталася помилка при створенні студента.";
+                TempData["ErrorMessage"] = "Сталася помилка при створенні студента. Exception: " + ex.Message;
             }
             return RedirectToAction("Index");
         }
@@ -64,9 +69,13 @@ namespace Lab2_Programming.Controllers
         [HttpPost]
         public IActionResult UpdateStudent(Student student, string className)
         {
+            ModelState.Remove("Teacher");
             if (!ModelState.IsValid)
             {
-                TempData["ErrorMessage"] = "Некоректний формат даних.";
+                var exactErrors = string.Join(" | ", ModelState.Values
+                                .SelectMany(v => v.Errors)
+                                .Select(e => e.ErrorMessage));
+                TempData["ErrorMessage"] = $"Помилка форми: {exactErrors}";
                 return RedirectToAction("Info", new { id = student.StudentId });
             }
 

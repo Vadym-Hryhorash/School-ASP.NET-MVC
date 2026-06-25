@@ -13,6 +13,13 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+var supportedCultures = new[] { new System.Globalization.CultureInfo("en-US") };
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en-US"),
+    SupportedCultures = supportedCultures,
+    SupportedUICultures = supportedCultures
+});
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
